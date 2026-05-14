@@ -40,10 +40,10 @@ amcl:
     scan_topic: scan
     set_initial_pose: true
     initial_pose:
-      x: 10.1592 
-      y: -1.04391
+      x: -0.00937446 
+      y: 0.0499356
       z: 0.0
-      yaw: -1.63493
+      yaw: -0.0305176
 
 bt_navigator:
   ros__parameters:
@@ -112,8 +112,8 @@ bt_navigator_navigate_to_pose_rclcpp_node:
 
 controller_server:
   ros__parameters:
-    use_sim_time: True
-    controller_frequency: 10.0       # 【虚拟机减负】全局控制频率降为 10Hz，确保指令实时下达不卡顿
+    use_sim_time: False 
+    controller_frequency: 20.0       # 【虚拟机减负】全局控制频率降为 10Hz，确保指令实时下达不卡顿
     min_x_velocity_threshold: 0.001
     min_y_velocity_threshold: 0.001
     min_theta_velocity_threshold: 0.001
@@ -136,7 +136,7 @@ controller_server:
       plugin: "nav2_mppi_controller::MPPIController"
       time_steps: 40                 # 【虚拟机减负】降低预测步数，减少轨迹长度计算量
       model_dt: 0.05
-      batch_size: 500                # 【虚拟机减负】暴砍 75% 采样批次，防止遇人时 CPU 卡死
+      batch_size: 800                # 【虚拟机减负】暴砍 75% 采样批次，防止遇人时 CPU 卡死
       iteration_count: 1
       v_std: [0.15, 0.1, 0.3]        # 【防画龙】收缩 Y 轴侧方采样，遇人时倾向减速而非剧烈横移
       v_mag_std: [0.1, 0.1, 0.1]
