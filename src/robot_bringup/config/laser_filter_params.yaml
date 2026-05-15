@@ -1,0 +1,13 @@
+scan_filter:
+  ros__parameters:
+    filter1:
+      name: pillar_box_filter
+      type: laser_filters/LaserScanBoxFilter
+      params:
+        box_frame: base_link
+        max_x: 11.2
+        min_x: 11.0
+        max_y: 1.5
+        min_y: -1.5
+        max_z: 1.0
+        min_z: -1.0

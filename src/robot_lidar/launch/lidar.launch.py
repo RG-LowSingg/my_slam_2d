@@ -3,7 +3,7 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch_ros.actions import Node
+from launch_ros.actions import Node, SetRemap
 from launch.substitutions import LaunchConfiguration
 
 def generate_launch_description():
@@ -16,6 +16,8 @@ def generate_launch_description():
         default_value='false',
     )
     
+    remap_scan_topic = SetRemap(src='/scan', dst='/scan_raw')
+
     static_tf_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
@@ -33,6 +35,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        remap_scan_topic,
         static_tf_node,
         lidar_driver_launch
     ])
