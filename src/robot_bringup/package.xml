@@ -13,7 +13,9 @@
   <exec_depend>robot_imu</exec_depend>
   <exec_depend>robot_lidar</exec_depend>
   <exec_depend>robot_odometry</exec_depend>
-
+  <exec_depend>gemini335_perception</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>xacro</exec_depend>
   <depend>rclcpp</depend>
   <exec_depend>ros2launch</exec_depend>
   <exec_depend>slam_toolbox</exec_depend>

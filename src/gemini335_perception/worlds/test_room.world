@@ -1,0 +1,103 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <world name="test_room_world">
+    <!-- Physics tuning for VM: reduce CPU load while keeping stable /clock -->
+    <physics type="ode">
+      <real_time_update_rate>500</real_time_update_rate>
+      <max_step_size>0.002</max_step_size>
+    </physics>
+
+    <!-- Global light source -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+    
+    <!-- Ground plane -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- Enclosed room walls -->
+    <model name="room_walls">
+      <static>true</static>
+      <!-- North wall -->
+      <link name="wall_n">
+        <pose>0 4 1 0 0 0</pose>
+        <collision name="collision_n"><geometry><box><size>8 0.1 2</size></box></geometry></collision>
+        <visual name="visual_n"><geometry><box><size>8 0.1 2</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Bricks</name></script></material>
+        </visual>
+      </link>
+      <!-- South wall -->
+      <link name="wall_s">
+        <pose>0 -4 1 0 0 0</pose>
+        <collision name="collision_s"><geometry><box><size>8 0.1 2</size></box></geometry></collision>
+        <visual name="visual_s"><geometry><box><size>8 0.1 2</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Bricks</name></script></material>
+        </visual>
+      </link>
+      <!-- East wall -->
+      <link name="wall_e">
+        <pose>4 0 1 0 0 0</pose>
+        <collision name="collision_e"><geometry><box><size>0.1 8 2</size></box></geometry></collision>
+        <visual name="visual_e"><geometry><box><size>0.1 8 2</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Bricks</name></script></material>
+        </visual>
+      </link>
+      <!-- West wall -->
+      <link name="wall_w">
+        <pose>-4 0 1 0 0 0</pose>
+        <collision name="collision_w"><geometry><box><size>0.1 8 2</size></box></geometry></collision>
+        <visual name="visual_w"><geometry><box><size>0.1 8 2</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Bricks</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Obstacles inside the room -->
+    <model name="obstacle_box_1">
+      <static>false</static>
+      <pose>2.0 1.5 0.5 0 0 0.5</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>1 1 1</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>1 1 1</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/WoodPallet</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle_cylinder_1">
+      <static>true</static>
+      <pose>-2.0 2.0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision"><geometry><cylinder><radius>0.4</radius><length>1.0</length></cylinder></geometry></collision>
+        <visual name="visual"><geometry><cylinder><radius>0.4</radius><length>1.0</length></cylinder></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Blue</name></script></material>
+        </visual>
+      </link>
+    </model>
+    
+    <model name="obstacle_box_2">
+      <static>false</static>
+      <pose>-1.5 -2.0 0.3 0 0 -0.2</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>0.6 0.6 0.6</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>0.6 0.6 0.6</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/WoodPallet</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="obstacle_box_3">
+      <static>true</static>
+      <pose>2.5 -1.5 0.5 0 0 0.2</pose>
+      <link name="link">
+        <collision name="collision"><geometry><box><size>1.2 0.3 1.0</size></box></geometry></collision>
+        <visual name="visual"><geometry><box><size>1.2 0.3 1.0</size></box></geometry>
+          <material><script><uri>file://media/materials/scripts/gazebo.material</uri><name>Gazebo/Green</name></script></material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

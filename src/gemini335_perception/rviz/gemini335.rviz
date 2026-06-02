@@ -1,0 +1,67 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Topic:
+        Value: /robot_description
+      Name: RobotModel
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Name: TF
+      Value: true
+    - Class: rviz_default_plugins/PointCloud2
+      Name: PointCloud2
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Best Effort
+        Value: /gemini335/points
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: RGB Image
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /gemini335/color/image_raw
+      Value: true
+    - Class: rviz_default_plugins/Image
+      Name: Depth Image
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /gemini335/depth/image_raw
+      Value: false
+    - Class: rviz_default_plugins/Map
+      Name: Local Costmap
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /costmap/costmap
+      Value: true
+      Update Topic:
+        Value: /costmap/costmap_updates
+  Global Options:
+    Fixed Frame: base_footprint
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+Window Geometry:
+  Height: 800
+  Width: 1200
+

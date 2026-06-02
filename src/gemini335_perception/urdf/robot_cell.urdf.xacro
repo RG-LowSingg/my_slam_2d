@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="gemini335_robot">
+  
+  <!-- Include modular components -->
+  <xacro:include filename="modules/common.xacro" />
+  <xacro:include filename="modules/chassis_omni.xacro" />
+  <xacro:include filename="modules/upper_body.xacro" />
+  <xacro:include filename="modules/sensors.xacro" />
+
+  <!-- Assemble the robot -->
+  <xacro:chassis_omni />
+  <xacro:upper_body parent_link="base_link" />
+  <xacro:sensors_suite parent_link="base_link" />
+
+</robot>

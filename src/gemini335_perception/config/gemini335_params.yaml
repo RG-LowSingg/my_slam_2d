@@ -1,0 +1,34 @@
+# Gemini 335 Perception Node Parameters
+gemini335_perception:
+  ros__parameters:
+    # Stream configuration
+    color_width: 640
+    color_height: 480
+    color_fps: 30
+    color_format: "mjpg"         # mjpg, rgb, bgr
+
+    # Depth configuration
+    enable_depth: true
+    depth_align_mode: "hw"      # hw, sw, off
+    depth_max_mm: 5000          # Max depth for colorization
+
+    # IMU configuration
+    enable_imu: true
+
+    # Frame settings
+    frame_id_color: "gemini335_color_optical_frame"
+    frame_id_depth: "gemini335_depth_optical_frame"
+    frame_id_scan: "gemini335_camera_link"
+    frame_id_imu: "gemini335_imu_frame"
+
+    # Topic names
+    topic_color_image: "gemini335/color/image_raw"
+    topic_color_info: "gemini335/color/camera_info"
+    topic_depth_image: "gemini335/depth/image_raw"
+    topic_depth_info: "gemini335/depth/camera_info"
+    topic_scan: "gemini335/depth/scan"
+    topic_imu: "gemini335/imu"
+    
+    # Advanced scan parameters
+    scan_height_min_ratio: 0.1
+    scan_height_max_ratio: 0.9

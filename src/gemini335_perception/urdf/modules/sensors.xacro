@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="sensors_suite" params="parent_link">
+    <!-- Chassis LiDAR -->
+    <link name="laser_link">
+      <visual>
+        <geometry>
+          <cylinder radius="0.035" length="0.04"/>
+        </geometry>
+        <material name="black"><color rgba="0.1 0.1 0.1 1"/></material>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder radius="0.035" length="0.04"/>
+        </geometry>
+      </collision>
+      <xacro:cylinder_inertia m="0.2" r="0.035" h="0.04">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:cylinder_inertia>
+    </link>
+    <joint name="laser_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="laser_link"/>
+      <origin xyz="0.18 0 0.24" rpy="0 0 3.1415926"/>
+    </joint>
+
+    <link name="imu_link" />
+    <joint name="imu_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="imu_link"/>
+      <origin xyz="-0.07 0.02 0.145" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Gemini 335 Camera -->
+    <!-- Positioned higher up, assuming at the top front of the frame -->
+    <link name="gemini335_camera_link">
+      <visual>
+        <geometry><box size="0.03 0.1 0.03"/></geometry>
+        <material name="black"><color rgba="0.1 0.1 0.1 1"/></material>
+      </visual>
+      <collision>
+        <geometry><box size="0.03 0.1 0.03"/></geometry>
+      </collision>
+      <xacro:box_inertia m="0.15" x="0.03" y="0.1" z="0.03">
+         <origin xyz="0 0 0" rpy="0 0 0"/>
+      </xacro:box_inertia>
+    </link>
+    <joint name="gemini335_mount_joint" type="fixed">
+      <parent link="${parent_link}"/>
+      <child link="gemini335_camera_link"/>
+      <origin xyz="0 0 0.33" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Optical frames for Gemini -->
+    <link name="gemini335_depth_optical_frame"/>
+    <joint name="gemini335_depth_optical_joint" type="fixed">
+      <parent link="gemini335_camera_link"/>
+      <child link="gemini335_depth_optical_frame"/>
+      <origin xyz="0 0 0" rpy="-1.5708 0 -1.5708"/>
+    </joint>
+
+
+
+  </xacro:macro>
+</robot>

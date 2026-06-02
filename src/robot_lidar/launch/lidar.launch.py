@@ -18,24 +18,18 @@ def generate_launch_description():
     
     remap_scan_topic = SetRemap(src='/scan', dst='/scan_raw')
 
-    static_tf_node = Node(
-        package='tf2_ros',
-        executable='static_transform_publisher',
-        name='base_link_to_laser',
-        arguments=['0.18', '0', '0.24', '3.1415926', '0', '0', 'base_link', 'laser_frame']
-    )
+    # static_tf_node removed, now managed by URDF
 
     lidar_driver_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(os.path.join(sllidar_dir, 'launch', 'sllidar_c1_launch.py')),
         launch_arguments={
             'serial_port': '/dev/ttyUSB0', 
-            'frame_id': 'laser_frame',
+            'frame_id': 'laser_link',
             'use_sim_time': use_sime_time
         }.items()
     )
 
     return LaunchDescription([
         remap_scan_topic,
-        static_tf_node,
         lidar_driver_launch
     ])

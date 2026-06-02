@@ -9,10 +9,13 @@ SerialReaderNode::SerialReaderNode () : Node("serial_reader_node"){
     imu_pub_ = this->create_publisher<sensor_msgs::msg::Imu>("imu/data_raw", 10);
     cmd_vel_sub_ = this->create_subscription<geometry_msgs::msg::Twist>(
             "/cmd_vel", 10, std::bind(&SerialReaderNode::cmdVelCallback, this, std::placeholders::_1));
+    this->declare_parameter<std::string>("serial_port", "/dev/ttyTHS0");
+    std::string port = this->get_parameter("serial_port").as_string();
+
     try {
-        serial_port_.Open("/dev/ttyACM0");
+        serial_port_.Open(port);
         serial_port_.SetBaudRate(LibSerial::BaudRate::BAUD_115200);
-        RCLCPP_INFO(this->get_logger(), "Serial Started:/dev/ttyACM0");
+        RCLCPP_INFO(this->get_logger(), "Serial Started: %s", port.c_str());
     } catch (const std::exception &e) {
         RCLCPP_ERROR(this->get_logger(), "Can't open serial. %s", e.what());
         running_ = false;

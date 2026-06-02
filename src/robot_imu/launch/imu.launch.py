@@ -5,13 +5,6 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='tf2_ros',
-            executable='static_transform_publisher',
-            name='imu_static_tf_pub',
-            arguments=['-0.07', '0.02', '0.145', '0', '0', '0', 'base_link', 'imu_link']
-        ),
-
-        Node(
             package='imu_filter_madgwick',
             executable='imu_filter_madgwick_node',
             name='imu_filter_node',
