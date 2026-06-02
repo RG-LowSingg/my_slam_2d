@@ -3,3 +3,4 @@ install/
 log/
 third_party/
 .vscode/
+docs/
