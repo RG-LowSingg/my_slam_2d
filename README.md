@@ -48,3 +48,75 @@ source install/setup.bash
 ros2 launch robot_bringup bringup.launch.py serial_port:=/dev/ttyTHS0
 ```
 
+## Verification Plan
+
+### Phase 1: TF 树验证
+```bash
+# 启动底盘 + 相机
+ros2 launch robot_bringup bringup.launch.py serial_port:=/dev/ttyTHS0
+# 检查 TF 树完整性
+ros2 run tf2_tools view_frames
+# 应看到: map → odom → base_link → {laser_frame, imu_link, gemini335_camera_link}
+#                                      └→ gemini335_depth_optical_frame
+#                                      └→ gemini335_color_optical_frame
+```
+
+### Phase 2: 话题清单检查
+```bash
+ros2 topic list | grep -E "scan|imu|odom|cmd_vel|velocity|gemini"
+# 应精确看到 (无冗余):
+# /velocity
+# /imu/data_raw
+# /imu/data
+# /odom
+# /scan_raw
+# /scan
+# /gemini335/depth/scan
+# /gemini335/imu
+# /gemini335/color/image_raw     (仅有订阅者时活跃)
+# /gemini335/depth/image_raw     (仅有订阅者时活跃)
+# /cmd_vel
+```
+
+### Phase 3: SLAM 建图验证
+```bash
+ros2 launch robot_bringup slam.launch.py
+# RViz 中同时显示 /scan (雷达, 360°) 和 /gemini335/depth/scan (相机, 前方约70°)
+# 建图结果: 走廊宽度与物理测量偏差 < 5cm，闭环无显著偏移
+```
+
+### Phase 4: 双源 Costmap 验证
+```bash
+ros2 launch robot_bringup navigation.launch.py
+# RViz 中观察 Local Costmap:
+# - 底盘雷达标记的 360° 障碍物
+# - 相机标记的前方上层空间障碍物 (如桌面悬空部分)
+# 两者应正确叠加，无 TF 错位
+```
+
+### Phase 5: 闯入守卫测试
+```bash
+# 导航中，在相机前方 <1m 处挥手或放置高于雷达扫描面的障碍物
+# 预期行为:
+#   1. 机器人平缓停止 (非急刹)
+#   2. 终端日志: "Intrusion detected, canceling navigation"
+#   3. 障碍物移除后约 0.3s，机器人自动恢复原导航目标
+#   4. 终端日志: "Intrusion cleared, resuming navigation to cached goal"
+```
+
+### Phase 6: Jetson Orin Nano 性能监控
+```bash
+tegrastats  # 持续监控 CPU/GPU/内存 使用率
+# CPU 总占用应 < 70%
+# GPU 占用 ≈ 0% (本阶段)
+# 内存 < 4GB
+```
+
+### Phase 7: 串口通信健康检查
+```bash
+# 验证 UART3 双向通信
+ros2 topic echo /velocity --once  # 应看到底盘编码器速度
+ros2 topic echo /imu/data_raw --once  # 应看到 ICM20948 原始数据
+ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.1}}" --once
+# 底盘应前进约 0.1m/s
+```
